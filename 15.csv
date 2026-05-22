@@ -1,0 +1,259 @@
+# type (r;w;u;1-9),class,name,comment,QQ,ZZ,PBSB,ID,field1,part (m;s),type / templates,divider / values,unit,comment,field2,part (m;s),type / templates,divider / values,unit,comment,field3,part (m;s),type / templates,divider / values,unit,comment,field4,part (m;s),type / templates,divider / values,unit,comment,field5,part (m;s),type / templates,divider / values,unit,comment,field6,part (m;s),type / templates,divider / values,unit,comment,field7,part (m;s),type / templates,divider / values,unit,comment,field8,part (m;s),type / templates,divider / values,unit,comment
+# Changelog:
+# 2026-04-03: betrd_bm2 -> betrd_bm umbenannt (circuit name)
+# 2026-04-12: eBUS-Dekodierung PBSB=0503/0800 dokumentiert
+# 2026-04-15: 30fe5022 BM-Broadcast dekodiert (A00/A09/A11/A12/A14/HG23)
+# 2026-04-15: HG80-89 Fehlerhistorie ergaenzt, CSV bereinigt
+
+*w,Feuerung,,,,03,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r;w,betrd_bm,bm2,Betriebsdaten des Reglers (hier BM2) an den Feuerungsautomaten,,03,0507,,bm2_status,,UCH,0x00=aus;0x01=keine;0x55=Brauchwasser;0xAA=Heizen;0xCC=Emisionskontrolle;0xDD=TÜV;0xEE=Reglerstop;0x66=Brauchwasser_Reglerstop;0xBB=Brauchwasser_Heizen;0x44=Reglerstop_stufig,,Statuswärmeanforderung,aktion,,UCH,0x00=keine;0x01=Kesselpumpeaus;0x02=Kesselpumpean;0x03=Verbraucheraus;0x04=Verbraucheran,,variable Verbraucher,kesselsolltemp,,temp,,,Kesselsolltemperatur,solldruck,,press,,,Kesselsollwertdruck ,stellgrad,,percent1,,,Stellgradanforderung,brauchwassersolltemp,,temp1,,,Brauchwassersolltemperatur,brennstoff,,UCH,0x00=dc;0x01=Gas;0x02=Öl;0x03=dc,,Brennstoffwahl,,,,,,
+
+
+*r,betrd_bm,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+#################################
+# 3550220377b427 Raumtemperatur #
+#################################
+
+# r,betrd_bm,raumtemp,Raumtemperatur (35->50),,35,5022,77b427,,,UIN,10,°C,,,,,,,,
+
+#################################
+# 35502203fb7d27 Tagtemperatur #
+#################################
+
+# r,betrd_bm,tagtemp,Tagestemperatur (35->50),,35,5022,fb7d27,,,UIN,10,°C,,,,,,,,
+
+#####################################
+# 3008502203cc0d00 Kesseltemperatur #
+#####################################
+
+r2,,temp_burner,Kesseltemperatur (30->08),,08,5022,CC0D00,,,UIN,10,°C,,,,,,,,,,
+
+#######################################
+# 3008502203cc1600 Rücklauftemperatur #
+#######################################
+
+# r,,temp_return,Rücklauftemperatur (30->08),,08,5022,CC1600,,,UIN,10,°C,,,,,,,,
+
+
+#####################################
+# 3008502203cc1d27 Abgastemperatur  #
+#####################################
+
+# r,,temp_exhaust,Abgastemperatur (30->08),,08,5022,CC1D27,,,UIN,10,°C,,,,,,,,,,
+
+########################################
+# 3008502203cc6f01 Leistung in Prozent #
+########################################
+
+r,,performance_burner,GeraeteLeistung (30->08),,08,5022,CC6F01,,,UCH,,%,,,,,,,,,,
+
+##############################################
+# 3008502203cc5727 Drehzahl Pumpe in Prozent #
+##############################################
+
+r,,performance_pump,Drehzahl Pumpe (30->08),,08,5022,CC5727,,,UCH,,%,,,,,,,,,,
+
+#################################
+# 3008502203cc1a27 Anlagendruck #
+#################################
+
+#r,,pressure,Anlagendruck (30->08),,08,5022,CC1A27,,,UCH,100,bar,,,,,,,,,,
+r,,pressure,Anlagendruck (30->08),,08,5022,CC1A27,,,UIN,100,bar,,,,,,,,,,
+
+
+#############################################
+# 3008502203cc9a01 Software Version Brenner #
+############################################
+
+r,,fw_version_burner,Brenner Software (30->08),,08,5022,CC9A01,,,UCH,100,,,,,,,,,,,
+
+#####################################
+# 3008502203cc2602 Anzahl Zündungen #
+#####################################
+
+r5,,no_of_firing,Anzahl Zündungen (30->08),,08,5022,CC2602,,,UIN,,,,,,,,,,,,
+
+###############################
+# 3008502203cc4f27 Ionisation #
+###############################
+
+r,,ionisation,Ionisation (30->08),,08,5022,CC4F27,,,UCH,,,,,,,,,,,,
+
+####################################
+# 3008502203cc5e27 Anzahl Netz-Ein #
+####################################
+
+# r,,no_of_power_on,Anzahl Netz-Ein (30->08),,08,5022,CC5E27,,,UIN,,,,,,,,,,,,
+
+############################################
+# 3008502203cc2a02 Betriebsstunden Brenner #
+############################################
+
+r5,,op_hrs_heating,Betriebsstunden Brenner (30->08),,08,5022,CC2A02,,,UIN,,,,,,,,,,,,
+
+############################################
+# 3008502203cc2802 Betriebsstunden am Netz #
+############################################
+
+r5,,op_hrs_supply,Betriebsstunden am Netz (30->08),,08,5022,CC2802,,,UIN,,,,,,,,,,,,
+
+
+############################################
+# 3008502203cc5427 Heizung Status?	   #
+############################################
+
+r,,uflags4,Heizung Status? uflags4,,08,5022,CC5427,,,UIN,,,,,,,,,,,,
+
+############################################
+# 3008502203cc5327 Heizung Status?	   #
+############################################
+
+r,,uflags5,Heizung Status? uflags5,,08,5022,CC5327,,,UIN,,,,,,,,,,,,
+
+*r,feuerung,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg01,HG 01 - Hysterese Vorlauftemperatur,,08,5022,842200,hysterese_vorlauf,,UIN,10,K,Hysterese Vorlauftemperatur (5-25),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg01,HG 01 - Hysterese Vorlauftemperatur,,03,5023,002200,hysterese_vorlauf,,UIN,10,K,Hysterese Vorlauftemperatur (5-25),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,feuerung,hg02,HG 02 - Untere Geblaesedrehzahl,,08,5022,295a01,gebl_unten,,UIN,,Prozent,Untere Geblaesedrehzahl (25-100),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,feuerung,hg03,HG 03 - Obere Geblaesedrehzahl Warmwasser,,08,5022,cd5901,gebl_oben_ww,,UCH,,Prozent,Obere Geblaesedrehzahl Warmwasser (25-100),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,feuerung,hg04,HG 04 - Obere Geblaesedrehzahl Heizung,,08,5022,1d3f01,gebl_oben_hz,,UCH,,Prozent,Obere Geblaesedrehzahl Heizung (1-100),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg06,HG 06 - Heizkreispumpenbetriebsart,,08,5022,254101,betriebsart,,UIN,,,Heizkreispumpenbetriebsart (0-2),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg06,HG 06 - Heizkreispumpenbetriebsart,,03,5023,004101,betriebsart,,UIN,,,Heizkreispumpenbetriebsart (0-2),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg07,HG 07 - Heizkreispumpennachlauf,,08,5022,c14201,pumpen_nachlauf,,UIN,,min,Heizkreispumpennachlauf (0-30),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg07,HG 07 - Heizkreispumpennachlauf,,03,5023,004201,pumpen_nachlauf,,UIN,,min,Heizkreispumpennachlauf (0-30),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg08,HG 08 - Maximale Vorlaufsolltemperatur,,08,5022,de8402,max_vorlauf_temp,,UIN,10,°C,Maximale Vorlaufsolltemperatur (40-90),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg08,HG 08 - Maximale Vorlaufsolltemperatur,,03,5023,008402,max_vorlauf_temp,,UIN,10,°C,Maximale Vorlaufsolltemperatur (40-90),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg09,HG 09 - Taktsperre,,08,5022,9d4301,taktsperre,,UIN,,min,Taktsperre des Brenners (1-30),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg09,HG 09 - Taktsperre,,03,5023,004301,taktsperre,,UIN,,min,Taktsperre des Brenners (1-30),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg10,HG 10 - eBus-Adresse,,08,5022,ad7801,ebus_addr,,UIN,,,eBus-Adresse,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg11,HG 11 - Warmwasserschnellstart,,08,5022,a56a01,ww_schnellstart,,UIN,10,°C,Warmwasserschnellstart (10-60 °C),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg12,HG 12 - Gasart,,08,5022,f96b01,gas_art,,UIN,,,Gasart,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg13,HG 13 - Parametrierbarer Eingang E1,,08,5022,7e5b0a,eingang_e1,,UCH,,,Parametrierbarer Eingang E1 (0-11, empirisch; Wolf-Anleitung: 1-10),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg13,HG 13 - Parametrierbarer Eingang E1,,03,5023,005b0a,eingang_e1,,UCH,,,Parametrierbarer Eingang E1 (0-11, empirisch; Wolf-Anleitung: 1-10),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg15,HG 15 - Speicherhysterese,,08,5022,794001,hysterese_speicher,,UIN,10,K,Speicherhysterese (1-30),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg15,HG 15 - Speicherhysterese,,03,5023,004001,hysterese_speicher,,UIN,10,K,Speicherhysterese (1-30),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg16,HG 16 - Pumpenleistung HK minimal,,08,5022,b95501,pumpenleistung_hk_min,,UIN,,%,Pumpenleistung HK minimal (20-100),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg16,HG 16 - Pumpenleistung HK minimal,,03,5023,005501,pumpenleistung_hk_min,,UIN,,%,Pumpenleistung HK minimal (20-100),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg17,HG 17 - Pumpenleistung HK maximal,,08,5022,5d5601,pumpenleistung_hk_max,,UIN,,%,Pumpenleistung HK maximal (20-100),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg17,HG 17 - Pumpenleistung HK maximal,,03,5023,005601,pumpenleistung_hk_max,,UIN,,%,Pumpenleistung HK maximal (20-100),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg21,HG 21 - Kesselminimaltemperatur,,08,5022,201f00,kessel_min,,UIN,10,°C,Kesselminimaltemperatur (20-60 °C, >40°C Pflicht - Korrosionsschutz),,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg21,HG 21 - Kesselminimaltemperatur,,03,5023,001f00,kessel_min,,UIN,10,°C,Kesselminimaltemperatur (20-60 °C, >40°C Pflicht - Korrosionsschutz),suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg22,HG 22 - Kesselmaximaltemperatur,,08,5022,f42700,kessel_max,,UIN,10,°C,Kesselmaximaltemperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+w,feuerung,hg22,HG 22 - Kesselmaximaltemperatur,,03,5023,002700,kessel_max,,UIN,10,°C,Kesselmaximaltemperatur,suffix,,HEX:4,=9d010000,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg74,HG 74 - Geblaesedrehzahl,,08,5022,d5f601,gebl_drehzahl,,UCH,,U/sec,Geblaesedrehzahl,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg75,HG 75 - Warmwasserdurchsatz,,08,5022,316c01,ww_durchsatz,,UIN,,l/min,Warmwasserdurchsatz,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg9x,HG 9x - Netzbetriebsstunden,,08,5022,662802,betriebsstunden_netz,,UIN,,hours,Netzbetriebsstunden,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg90,HG 90 - Brennerbetriebsstunden,,08,5022,de2a02,betriebsstunden_brenner,,UIN,,hours,Brennerbetriebsstunden,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,hg91,HG 91 - Brennerstarts,,08,5022,aa2602,brennerstarts,,UIN,,Starts,Brennerstarts,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,vorlauf_soll,Vorlauf Sollwert,,08,5022,b80200,vorlauf_soll,,UIN,10,°C,Vorlauf Solltemperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,vorlauf_ist,Vorlauf Istwert,,08,5022,280d00,vorlauf_ist,,UIN,10,°C,Vorlauf Ist-Temperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,feuerung,ruecklauf_ist,Ruecklauf Ist-Temperatur,,08,5022,241600,ruecklauf_ist,,UIN,10,°C,Ruecklauf Ist-Temperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,warmwasser_soll,Warmwasser Solltemperatur,,08,5022,e40300,warmwasser_soll,,UIN,10,°C,Warmwasser Solltemperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,warmwasser_ist,Warmwasser Ist-Temperatur,,08,5022,cc0e00,warmwasser_ist,,UIN,10,°C,Warmwasser Ist-Temperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,feuerung,aussentemperatur,Aussentemperatur,,08,5022,cc0c00,Aussentemperatur,,UIN,10,°C,Aussentemperatur,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+# r,betrd_bm,aussentemperatur_gem,"Aussentemperatur gemittelt",,35,5022,4bc327,"Aussentemperatur gemittelt",,UIN,10,°C,"Aussentemperatur gemittelt",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r,feuerung,pwm_pumpe,PWM Pumpe,,08,5022,6d6d01,pwm_pumpe,,UIN,,Prozent,PWM Pumpe,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+r5,feuerung,hg80,HG 80 - Letzter Fehler,,08,5022,3a2902,fehler_roh,,HEX:2,,,Letzter Fehler (Rohdaten - Encoding unbekannt)
+r5,feuerung,hg81,HG 81 - Fehler 2,,08,5022,822b02,fehler_roh,,HEX:2,,,Fehlerhistorie 2 (Rohdaten)
+r5,feuerung,hg82,HG 82 - Fehler 3,,08,5022,4a2c02,fehler_roh,,HEX:2,,,Fehlerhistorie 3 (Rohdaten)
+r5,feuerung,hg83,HG 83 - Fehler 4,,08,5022,162d02,fehler_roh,,HEX:2,,,Fehlerhistorie 4 (Rohdaten)
+r5,feuerung,hg84,HG 84 - Fehler 5,,08,5022,f22e02,fehler_roh,,HEX:2,,,Fehlerhistorie 5 (Rohdaten)
+r5,feuerung,hg85,HG 85 - Fehler 6,,08,5022,ae2f02,fehler_roh,,HEX:2,,,Fehlerhistorie 6 (Rohdaten)
+r5,feuerung,hg86,HG 86 - Fehler 7,,08,5022,8e3002,fehler_roh,,HEX:2,,,Fehlerhistorie 7 (Rohdaten)
+r5,feuerung,hg87,HG 87 - Fehler 8,,08,5022,d23102,fehler_roh,,HEX:2,,,Fehlerhistorie 8 (Rohdaten)
+r5,feuerung,hg88,HG 88 - Fehler 9,,08,5022,363202,fehler_roh,,HEX:2,,,Fehlerhistorie 9 (Rohdaten)
+r5,feuerung,hg89,HG 89 - Aeltester Fehler,,08,5022,6a3302,fehler_roh,,HEX:2,,,Aeltester Fehler (Rohdaten)
+
+###############################################################
+# PBSB=0503 f1->fe BC - vollständig dekodiert 12.04.2026
+# QQ=f1 -> ZZ=fe (Broadcast)
+# Payload (8 Bytes nach NN=08):
+#   D0=01    : fix, ID-Byte
+#   D1       : WW-Betriebsstatus UCH
+#              01=Standby, 05=Heizen aktiv
+#   D2=ff    : fix
+#   D3       : unklar (variiert 0x00-0xa0, moegl. Rücklauftemp)
+#   D4=ff    : fix
+#   D6       : WW Ist °C (UCH, direkt)
+#   D7       : Statusbyte (0x07=normal, 0x08=aktiv)
+# Passives Matching via ebusd nicht möglich (b-Typ greift nicht)
+###############################################################
+
+# b,feuerung,funk_status_0503,Funk-Empfaenger BC 0503 (f1->fe),f1,fe,0503,01,...
+
+###############################################################
+# PBSB=0503 03->fe BC - vollständig dekodiert 12.04.2026
+# QQ=03 -> ZZ=fe (Broadcast)
+# Payload (8 Bytes nach NN=08):
+#   D0=01    : fix, ID-Byte
+#   D1       : WW-Betriebsstatus UCH
+#              00=Standby, 07=Heizen aktiv, 0a=Ziel erreicht
+#   D2       : variiert (0x00/0x07/0x0a)
+#   D3       : unklar
+#   D4       : unklar (variiert, moegl. Vorlaufbezug)
+#   D5=80    : fix
+#   D6       : WW Ist °C (UCH, direkt) ✅
+#   D7=d8    : fix (Trailer)
+# Passives Matching via ebusd nicht möglich (b-Typ greift nicht)
+###############################################################
+
+# b,feuerung,kessel_status_0503,Kessel BC 0503 (03->fe),03,fe,0503,01,...
+
+###############################################################
+# PBSB=0800 MM/BC - vollständig dekodiert 12.04.2026
+# Drei Varianten auf dem Bus:
+#   QQ=10 -> ZZ=03 (MM): Regler an Feuerungsautomat
+#   QQ=f1 -> ZZ=fe (BC): Broadcast
+#   QQ=03 -> ZZ=f1 (MM): Feuerungsautomat an Regler
+# Payload (8 Bytes nach NN=08):
+#   D0-D1: UIN16 LE / 256 = Kesselsolltemperatur °C ✅
+#          z.B. 00 05 = 0x0500/256 = 5.0°C  (Standby)
+#               33 29 = 0x2933/256 = 41.2°C (Heizbetrieb)
+#   D2-D3: UIN16 LE / 256 = Aussentemperatur °C ✅
+#          z.B. 9a 07 = 0x079a/256 = 7.60°C
+#   D4:    0x00/0x80 = Konstantflag (variiert je Variante)
+#   D5:    Betriebsstatus-Bitfeld ✅
+#          0x00 = Heizbetrieb aktiv
+#          0x40 = Absenkbetrieb/Standby (Bit 6 gesetzt)
+#   D6:    0x00 = Konstant
+#   D7:    UCH = Aktiver Sollwert °C ✅
+#          Wechselt je Betriebsart:
+#          Heizbetrieb: Vorlauf-Solltemp (z.B. 3e=62°C)
+#          Absenkbetrieb: Absenktemperatur (z.B. 0a=10°C)
+#          WW-Betrieb: WW-Solltemperatur (z.B. 3c=60°C)
+# Hinweis: PBSB=0800 ist eBUS-Standard (betrd-Broadcast)
+#          Passives Matching via ebusd CSV nicht möglich
+#          (b-Typ greift nicht, gleiches Problem wie PBSB=0503)
+###############################################################
+
+
+###############################################################
+# QQ=07 MS PBSB=5022 - unbekannter Master, 30.03.2026
+# Burst-Polling an ZZ=08 (Kessel), 12 verschiedene IDs
+# Wahrscheinlich tado° Funk-Empfänger X (E1-Modus, HG13=1)
+# IDs nicht sequenziell, nicht dekodierbar ohne Wolf-Spezifikation
+# Response immer 2 Bytes
+# OFFEN - kein Handlungsbedarf
+###############################################################
+
+# QQ=30 MS PBSB=5022 - BM-Modul liest eigene Parameter
+# ID=658601 - unbekannte HG-ID, BM-interner Read
+# OFFEN - kein Handlungsbedarf
+###############################################################
+# 30fe5022 BC - BM-Broadcast PBSB=5022 - dekodiert 15.04.2026
+# QQ=30 (BM) broadcastet eigene Parameter (A- und HG-Werte)
+# Struktur: NN=09, ID(3 Bytes), Wert(2 Bytes SIN16LE/10), Trailer=5d010000
+# Parameter im BM gespeichert (ZZ=35), nicht im Kessel (ZZ=08)
+# ID-Schema: [CRC-Prefix ignoriert][TelegramNr LE 2 Bytes]
+# Quelle: ism7mqtt/DeviceTemplates+ParameterTemplates.xml
+# 
+# ID=248101/6c8101  TelegramNr=385  Wert=65.0°C   A14=HG23 WW-Maximaltemperatur       ✅
+# ID=440f01         TelegramNr=271  Wert=4         A00 Raumeinflussfaktor 4K/K         ✅
+# ID=28000a         TelegramNr=2560 Wert=-10.0°C   A09 Frostschutztemperatur           ✅
+# ID=08be02         TelegramNr=702  Wert=-20.0°C   A12 Absenkstopp                     ✅
+# ID=acbd02         TelegramNr=701  Wert=0/Aus     A11 Raumtemp Winter/Sommer-Umschalt ✅
+# ID=241401         TelegramNr=276  Wert=2         BM-Parameter, Bedeutung offen       ⚠️
+# ID=642300         TelegramNr=35   Wert=1         BM-Parameter, Bedeutung offen       ⚠️
+# Hinweis: Alle IDs per hex-s 31 35 5022 03 lesbar (ZZ=35=BM-Slave)
+###############################################################
+###############################################################
