@@ -126,7 +126,7 @@ Ten error history registers. Raw 2-byte values — encoding is proprietary and n
 
 ## Known Limitations
 
-- **`temp_return`** (return temperature): No sensor fitted in CGG-2 hardware — register always returns 0x7FFF. Entry commented out in `15.csv`.
+- **`temp_return`** (return temperature): No sensor fitted in my CGG-2 hardware — register exists but always returns 0x7FFF. Entry commented out in `15.csv`.
 - **PBSB=0503 / PBSB=0800**: `b`-type passive matching does not work in ebusd v26 for these message types. Documented in `15.csv` for reference.
 - **HG23 write**: Must be sent as BM broadcast (ZZ=fe), not as direct MS write. See BM Broadcast section below.
 
