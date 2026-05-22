@@ -199,6 +199,21 @@ Triggering a DHW heating cycle outside the scheduled times:
 
 ---
 
+## BM Clock Correction
+
+The Wolf BM has no battery-backed RTC — after a power cut it loses its time and date.
+
+With ebusd, the clock can be corrected automatically. The BM accepts datetime broadcasts from `QQ=0f` (Funk-Empfänger) or `QQ=30` (BM master) only. ebusd allows spoofing the source address via `hex -s` on TCP port 8888:
+
+```bash
+bcd() { printf "%02x" $(( (($1/10)<<4) | ($1%10) )); }
+echo "hex -s 0f fe 07 00 09 80 00 $(bcd $(date +%-S)) $(bcd $(date +%-M)) $(bcd $(date +%-H)) $(bcd $(date +%-d)) $(bcd $(date +%-m)) $(date +%u) $(bcd $(date +%y))" | nc -w3 172.30.33.1 8888
+```
+
+This can be automated in Home Assistant — triggered on RTC reset detection, time drift, or daily as a preventive measure.
+
+---
+
 ## Acknowledgements
 
 This configuration was developed by reverse engineering the Wolf CGG-2 eBUS protocol through live bus analysis, parameter correlation, and cross-referencing with Wolf SmartSet XML data.
